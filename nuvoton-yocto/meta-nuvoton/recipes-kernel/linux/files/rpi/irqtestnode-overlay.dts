@@ -1,0 +1,22 @@
+/dts-v1/;
+/plugin/;
+
+/ {
+    compatible = "brcm,bcm2711";
+
+    fragment@0 {
+	target-path = "/";
+	__overlay__ {
+    	    irqtest {
+        	compatible = "tmtest,irqtest";
+		status = "okay";
+		irqtest-gpios = <&gpio 5 0
+				 &gpio 6 0
+				 &gpio 26 0>;
+		interrupt-parent = <&gpio>;
+            	interrupts = <5 2>, <6 2>;
+            };
+    	};
+    };
+};
+

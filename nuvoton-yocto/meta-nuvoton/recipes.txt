@@ -1,0 +1,4 @@
+recipes-bsp	- Anything with links to specific hardware or hardware configuration information
+recipes-core	- What's needed to build a basic working Linux image including commonly used dependencies
+recipes-kernel	- The kernel and generic applications/libraries with strong kernel dependencies
+recipes-custom	- Addition information for the Linux image
