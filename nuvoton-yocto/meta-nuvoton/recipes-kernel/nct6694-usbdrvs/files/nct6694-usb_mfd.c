@@ -320,7 +320,7 @@ int nct6694_usb_probe(struct usb_interface *iface,
 		return -ENOMEM;
 
 	pipe = usb_rcvintpipe(udev, INT_IN_ENDPOINT);
-	maxp = 8;
+	maxp = usb_maxpacket(udev, pipe);
 
 	if (!(chip->cmd_buffer = kzalloc(sizeof(unsigned char) * CMD_PACKET_SZ, GFP_KERNEL)))
 		goto fail1;

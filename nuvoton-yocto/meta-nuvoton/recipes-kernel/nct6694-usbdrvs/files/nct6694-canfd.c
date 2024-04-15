@@ -159,6 +159,8 @@ static void nct6694_canfd_set_bittiming(struct net_device *ndev, unsigned char *
 
 	SET_BUF32(&buf[CAN_NBR_IDX], n_bt->bitrate);
 	SET_BUF32(&buf[CAN_DBR_IDX], d_bt->bitrate);
+
+	pr_info("%s: can(%d) NBR = %d, DBR = %d\n", __func__, priv->can_idx, n_bt->bitrate, d_bt->bitrate);
 }
 
 static int nct6694_canfd_start(struct net_device *ndev)
@@ -167,7 +169,6 @@ static int nct6694_canfd_start(struct net_device *ndev)
 	struct nct6694_canfd_priv *priv = netdev_priv(ndev);
 	struct nct6694_canfd_data *data = priv->data;
 	unsigned char buf[REQUEST_CAN_CMD0_LEN] = {0};
-	u32 NBR, DBR;
 	u16 temp = 0;
 
 	nct6694_canfd_set_bittiming(ndev, buf);
@@ -191,18 +192,6 @@ static int nct6694_canfd_start(struct net_device *ndev)
 		pr_err("%s: Failed to set data bittiming\n", __func__);
 		return ret;
 	}
-
-	ret = nct6694_getusb(data->chip, REQUEST_CAN_MOD, REQUEST_CAN_CMD0_OFFSET(priv->can_idx),
-						 REQUEST_CAN_CMD0_LEN, CAN_NBR_IDX, 4, (unsigned char*)&NBR);
-	if (ret)
-		pr_err("%s: Failed to get data from usb device!\n", __func__);
-
-	ret = nct6694_getusb(data->chip, REQUEST_CAN_MOD, REQUEST_CAN_CMD0_OFFSET(priv->can_idx),
-						 REQUEST_CAN_CMD0_LEN, CAN_DBR_IDX, 4, (unsigned char*)&DBR);
-	if (ret)
-		pr_err("%s: Failed to get data from usb device!\n", __func__);
-
-	pr_info("%s: can(%d) NBR = %d, can(%d) DBR = %d\n", __func__, priv->can_idx, NBR, priv->can_idx, DBR);
 
 	priv->can.state = CAN_STATE_ERROR_ACTIVE;
 

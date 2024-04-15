@@ -11,8 +11,8 @@ PACKAGES = "\
 "
 
 RDEPENDS:${PN}-drvs = "\
-    usbdrv \
-    irqtest-mod \
+    nct6694-usbdrvs \
+    wdttest-mod \
 "
                                                 
 RDEPENDS:${PN}-apps = "\
