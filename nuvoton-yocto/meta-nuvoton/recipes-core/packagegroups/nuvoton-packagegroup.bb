@@ -11,7 +11,6 @@ PACKAGES = "\
 "
 
 RDEPENDS:${PN}-drvs = "\
-    nct6694-usbdrvs \
     wdttest-mod \
 "
                                                 
@@ -20,4 +19,6 @@ RDEPENDS:${PN}-apps = "\
     can-utils \
     libgpiod-tools \
     dfu-util \
+    watchdog \
+    lmsensors \
 "

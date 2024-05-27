@@ -7,10 +7,10 @@
     fragment@0 {
 	target-path = "/";
 	__overlay__ {
-    	    irqtest {
-        	compatible = "tmtest,irqtest";
+    	    wdttest {
+        	compatible = "nuvoton,wdttestnode";
 		status = "okay";
-		irqtest-gpios = <&gpio 5 0
+		wdttest-gpios = <&gpio 5 0
 				 &gpio 6 0
 				 &gpio 26 0>;
 		interrupt-parent = <&gpio>;

@@ -4,9 +4,6 @@ SRC := $(shell pwd)
 
 all:
 	$(MAKE) -C $(KERNEL_SRC) M=$(SRC)
-	echo "$(KERNEL_SRC)" > test.txt
-	echo "$(WORKDIR)" >> test.txt
-	echo "$(SRC)" >> test.txt
 
 modules_install:
 	$(MAKE) -C $(KERNEL_SRC) M=$(SRC) modules_install

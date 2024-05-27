@@ -1,4 +1,4 @@
 do_deploy:append() {
-        echo "# Enable my irqtestnode" >> ${DEPLOYDIR}/bootfiles/config.txt
-        echo "dtoverlay=irqtestnode" >> ${DEPLOYDIR}/bootfiles/config.txt
+        echo "# Enable my wdttestnode" >> ${DEPLOYDIR}/bootfiles/config.txt
+        echo "dtoverlay=wdttestnode" >> ${DEPLOYDIR}/bootfiles/config.txt
 }

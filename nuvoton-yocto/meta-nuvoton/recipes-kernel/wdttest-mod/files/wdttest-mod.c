@@ -1,8 +1,9 @@
 // SPDX-License-Identifier: GPL-2.0+
 /*
  * The kernel module is only a simple example to register SoC's GPIO interrupt,
- * insert the module will request a PIN(GPIO5) to irq & set a PIN(GPIO6) to output.
- * 
+ * insert the module will request GPIO5/GPIO6  to irq, and create Bin attribute.
+ * The bin file is used to trigger a Low pulse to reset WDT countdown value.
+ *
  * Copyright (C) 2024 Nuvoton Technology Corp.
  */
 
@@ -46,19 +47,19 @@ static int my_probe(struct platform_device *pdev) {
     struct kobject *kobj_ref;
     int irq, ret;
 
-    gpio_irq1 = devm_gpiod_get_index(&pdev->dev, "irqtest", 0, GPIOD_IN);
+    gpio_irq1 = devm_gpiod_get_index(&pdev->dev, "wdttest", 0, GPIOD_IN);
     if (IS_ERR(gpio_irq1)) {
 	pr_err("Failed to get gpio_irq1 descriptor!\n");
 	return PTR_ERR(gpio_irq1);
     }
 
-    gpio_irq2 = devm_gpiod_get_index(&pdev->dev, "irqtest", 1, GPIOD_IN);
+    gpio_irq2 = devm_gpiod_get_index(&pdev->dev, "wdttest", 1, GPIOD_IN);
     if (IS_ERR(gpio_irq2)) {
         pr_err("Failed to get gpio_irq2 descriptor!\n");
         return PTR_ERR(gpio_irq2);
     }
 
-    gpio_out = devm_gpiod_get_index(&pdev->dev, "irqtest", 2, GPIOD_OUT_HIGH);
+    gpio_out = devm_gpiod_get_index(&pdev->dev, "wdttest", 2, GPIOD_OUT_HIGH);
     if (IS_ERR(gpio_out)) {
         pr_err("Failed to get gpio_out descriptor!\n");
         return PTR_ERR(gpio_out);
@@ -119,7 +120,7 @@ static int my_remove(struct platform_device *pdev) {
 
 static struct of_device_id my_driver_ids[] = {
     {
-        .compatible = "tmtest,irqtest",
+        .compatible = "nuvoton,wdttestnode",
     },{}
 };
 MODULE_DEVICE_TABLE(of, my_driver_ids);
@@ -128,12 +129,12 @@ static struct platform_driver my_driver = {
     .probe = my_probe,
     .remove = my_remove,
     .driver = {
-	.name = "irqtestdrv",
+	.name = "wdttestdrv",
         .of_match_table = my_driver_ids,
     },
 };
 
-static int __init irqtest_init(void) {
+static int __init wdttest_init(void) {
     if(platform_driver_register(&my_driver)) {
     	pr_err("Failed to register platform driver!");
         return -1;
@@ -142,12 +143,12 @@ static int __init irqtest_init(void) {
     return 0;
 }
 
-static void __exit irqtest_exit(void) {
+static void __exit wdttest_exit(void) {
         platform_driver_unregister(&my_driver);
 }
 
-module_init(irqtest_init);
-module_exit(irqtest_exit);
+module_init(wdttest_init);
+module_exit(wdttest_exit);
 
 MODULE_DESCRIPTION("A test interrupt controller driver for SoC GPIO");
 MODULE_AUTHOR("Tzu-Ming Yu <tmyu0@nuvoton.com>");
